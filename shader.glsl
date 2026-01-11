@@ -13,23 +13,11 @@ mat2 rot2D(float a) {
     return mat2(c, -s, s, c);
 }
 
-// Smooth minimum for blending shapes
-float smin(float a, float b, float k) {
-    float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0);
-    return mix(b, a, h) - k * h * (1.0 - h);
-}
-
 // Tetrahedron SDF
 float sdTetrahedron(vec3 p, float r) {
     float md = max(max(-p.x - p.y - p.z, p.x + p.y - p.z),
                    max(-p.x + p.y + p.z, p.x - p.y + p.z));
     return (md - r) / sqrt(3.0);
-}
-
-// Box SDF for beveling
-float sdBox(vec3 p, vec3 b) {
-    vec3 q = abs(p) - b;
-    return length(max(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0);
 }
 
 // Beveled Tetrahedron - combine tetrahedron with smooth rounding
